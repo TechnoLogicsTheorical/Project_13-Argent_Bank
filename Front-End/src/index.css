@@ -30,7 +30,3 @@ body {
   width: 1px !important;
   white-space: nowrap !important; /* 3 */
 }
-
-a.router-link-exact-active {
-  color: #42b983;
-}

@@ -7,9 +7,9 @@ export default function RootLayout() {
     return (
         <>
             <Header />
-            <main>
-                <Outlet />
-            </main>
+
+            <Outlet />
+
             <Footer />
         </>
 

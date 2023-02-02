@@ -84,7 +84,7 @@ const FeatureText = styled.p``;
 
 export default function Home() {
     return (
-        <>
+        <main>
             <HeroContainer>
                 <HeroContent>
                     <h2 className="sr-only">Promoted Content</h2>
@@ -118,6 +118,6 @@ export default function Home() {
                     </FeatureText>
                 </FeatureItem>
             </FeaturesSection>
-        </>
+        </main>
     );
 }
