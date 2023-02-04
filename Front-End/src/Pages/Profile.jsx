@@ -74,7 +74,7 @@ const TransactionButton = styled.button`
   }
 `;
 
-export default function UserAccount() {
+export default function Profile() {
     return (
         <main className="main bg-dark">
             <HeaderContainer>

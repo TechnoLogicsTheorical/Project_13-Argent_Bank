@@ -2,8 +2,8 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import RootLayout from '../../Pages/RootLayout.jsx';
 import Home from '../../Pages/Home.jsx';
-import SignIn from '../../Pages/SignIn.jsx';
-import UserAccount from '../../Pages/UserAccount.jsx';
+import Login from '../../Pages/Login.jsx';
+import Profile from '../../Pages/Profile.jsx';
 
 export const roads = createBrowserRouter([
     {
@@ -15,12 +15,12 @@ export const roads = createBrowserRouter([
                 element: <Home />
             },
             {
-                path: '/sign-in',
-                element: <SignIn />
+                path: '/login',
+                element: <Login />
             },
             {
-                path: '/user',
-                element: <UserAccount />
+                path: '/profile',
+                element: <Profile />
             }
         ]
     }
