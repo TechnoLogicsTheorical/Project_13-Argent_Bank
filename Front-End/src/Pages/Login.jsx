@@ -45,7 +45,7 @@ const ButtonSignIn = styled.button`
   color: #fff;
 `;
 
-export default function SignIn() {
+export default function Login() {
     return (
         <main className="main bg-dark">
             <SignInContent>
@@ -64,7 +64,8 @@ export default function SignIn() {
                         <input type="checkbox" id="remember-me" />
                         <InputRememberLabel htmlFor="remember-me">Remember me</InputRememberLabel>
                     </InputRemember>
-                    {   // PLACEHOLDER DUE TO STATIC SITE
+                    {
+                        // PLACEHOLDER DUE TO STATIC SITE
                         //<a href="user.html" className="sign-in-button">Sign In</a>
                         //
                         // SHOULD BE THE BUTTON BELOW

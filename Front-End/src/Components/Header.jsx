@@ -43,7 +43,7 @@ export default function Header() {
                 <h1 className="sr-only">Argent Bank</h1>
             </NavLogo>
             <div>
-                <NavItem to="sign-in">
+                <NavItem to="login">
                     <i className="fa fa-user-circle"></i>
                     Sign In
                 </NavItem>
