@@ -45,19 +45,3 @@ export async function putProfileDetails(token, userObject) {
         return error.response.data;
     }
 }
-
-// const token = await getToken({
-//     email: 'tony@stark.com',
-//     password: 'password12'
-// });
-// console.log(token)
-// const profile = await getProfileDetails(token);
-// console.log(profile)
-//
-// const modifiedUser = {
-//     firstName: 'Tony',
-//     lastName: 'Boy'
-// }
-//
-// const modifiedProfile = await putProfileDetails(token.body.token, modifiedUser);
-// console.log(modifiedProfile);
