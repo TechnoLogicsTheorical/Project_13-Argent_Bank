@@ -69,7 +69,6 @@ export default function Login() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        console.log(isLogged)
         if (isLogged) {
             navigate('/profile');
         }
