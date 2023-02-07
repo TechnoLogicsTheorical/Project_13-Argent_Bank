@@ -15,9 +15,14 @@ const UserCredentialSlice = createSlice({
         },
         setToken: (state, { payload }) => {
             state.token = payload.token;
+        },
+        resetCredential: (state) => {
+            state.firstName = null;
+            state.lastName = null;
+            state.token = null;
         }
     }
 });
 
-export const { setUserCredential, setToken } = UserCredentialSlice.actions;
+export const { setUserCredential, setToken, resetCredential } = UserCredentialSlice.actions;
 export default UserCredentialSlice.reducer;

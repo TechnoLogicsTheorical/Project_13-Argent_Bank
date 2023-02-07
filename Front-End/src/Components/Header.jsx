@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import ArgentBankLogo from '../assets/img/argentBankLogo.png';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setUserCredential } from '../utils/redux/features/userCredential.slice.js';
+import { resetCredential } from '../utils/redux/features/userCredential.slice.js';
+import { logOut } from '../utils/redux/features/userLogged.js';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -25,14 +30,31 @@ const LogoImage = styled.img`
 
 const NavItem = styled(Link)`
   text-decoration: none;
-  margin-right: 0.5rem;
+  margin-right: 20px;
   color: #2c3e50;
+  display: inline-flex;
+  align-items: center;
   &:hover {
     text-decoration: underline;
   }
 `;
 
+const Icon = styled.i`
+  font-size: 32px;
+  margin-right: 0.5rem;
+`;
+
 export default function Header() {
+    const dispatch = useDispatch();
+
+    const isLogged = useSelector((state) => state.userLogged.isLogged);
+    const firstName = useSelector((state) => state.userCredential.firstName);
+
+    function handleDisconnect() {
+        dispatch(resetCredential());
+        dispatch(logOut());
+    }
+
     return (
         <NavContainer>
             <NavLogo to="/">
@@ -43,10 +65,28 @@ export default function Header() {
                 <h1 className="sr-only">Argent Bank</h1>
             </NavLogo>
             <div>
-                <NavItem to="login">
-                    <i className="fa fa-user-circle"></i>
-                    Sign In
-                </NavItem>
+
+                {
+                    isLogged ?
+                        (
+                            <>
+                                <NavItem to="/profile">
+                                    <Icon className="fa fa-user-circle"></Icon>
+                                    {firstName}
+                                </NavItem>
+                                <NavItem to='/' onClick={handleDisconnect}>
+                                    <Icon className="fa fa-sign-out"></Icon>
+                                    Sign out
+                                </NavItem>
+                            </>
+                        ) : (
+                            <NavItem to="/login">
+                                <Icon className="fa fa-user-circle"></Icon>
+                                Sign In
+                            </NavItem>
+                        )
+
+                }
             </div>
         </NavContainer>
     )
