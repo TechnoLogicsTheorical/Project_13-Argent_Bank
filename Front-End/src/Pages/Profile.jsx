@@ -1,5 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUserCredential } from '../utils/redux/features/userCredential.slice.js';
+import { putProfileDetails } from '../utils/services/callAPI.js';
 
 const HeaderContainer = styled.div`
   color: #fff;
@@ -74,12 +81,124 @@ const TransactionButton = styled.button`
   }
 `;
 
+const GreetingTitle = styled.h1``;
+
+const ModifiedUserContainer = styled.form`
+  margin: 20px auto;
+`;
+
+const InputWrapper = styled.div`
+  margin: 0 auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Input = styled.input`
+  width: 166px;
+  height: 33px;
+  margin: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 3px solid #B3BCC7;
+  font-size: 16px;
+  color: #838586;
+`;
+
+const InputButton = styled(Input)`
+  width: 100px;
+  color: #7171EF;
+  border-color: #A9ACEA;
+  font-size: 12px;
+`;
+
 export default function Profile() {
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+    const isLogged = useSelector( (state) => state.userLogged.isLogged);
+    const token = useSelector((state) => state.userCredential.token);
+
+    const [editMode, setEditMode] = useState(false);
+
+    const [firstName, setFirstName] = useState(useSelector(state => state.userCredential.firstName));
+    const [lastName, setLastName] = useState(useSelector(state => state.userCredential.lastName))
+
+    useEffect( () => {
+        if (!isLogged) {
+            navigate('/login');
+        }
+    }, [isLogged]);
+
+    function changeMode() {
+        setEditMode(!editMode);
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const userDetails = {
+            firstName,
+            lastName,
+        }
+
+        const requestResult = await putProfileDetails(token, userDetails);
+        if (requestResult.status === 200) {
+            dispatch(setUserCredential(userDetails));
+            setEditMode(false);
+        }
+    }
+
     return (
         <main className="main bg-dark">
             <HeaderContainer>
-                <h1>Welcome back<br />Tony Jarvis!</h1>
-                <EditButton>Edit Name</EditButton>
+                {
+                    editMode ?
+                        (
+                            <>
+                                <GreetingTitle>
+                                    Welcome back<br />
+                                </GreetingTitle>
+                                <ModifiedUserContainer onSubmit={ handleSubmit}>
+                                    <InputWrapper>
+                                        <Input
+                                            type="text"
+                                            value={firstName}
+                                            onChange={(e) => setFirstName(e.target.value)}
+                                            id="firstName"
+                                        />
+                                        <Input
+                                            type="text"
+                                            value={lastName}
+                                            onChange={(e) => setLastName(e.target.value)}
+                                            id="lastName"
+                                        />
+                                    </InputWrapper>
+
+                                    <InputWrapper>
+                                        <InputButton
+                                            type="submit"
+                                            value="Save"
+                                        />
+                                        <InputButton
+                                            type="reset"
+                                            value="Cancel"
+                                            onClick={changeMode}
+                                        />
+                                    </InputWrapper>
+                                </ModifiedUserContainer>
+                            </>
+                        ) : (
+                            <>
+                                <GreetingTitle>
+                                    Welcome back<br />
+                                    {firstName + ' ' + lastName}!
+                                </GreetingTitle>
+                                <EditButton onClick={ changeMode }>Edit Name</EditButton>
+                            </>
+                        )
+                }
+
             </HeaderContainer>
             <h2 className="sr-only">Accounts</h2>
             <AccountContainer>
