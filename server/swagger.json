@@ -172,6 +172,175 @@
                     }
                 }
             }
+        },
+        "/user/transactions": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": [ ]
+                    }
+                ],
+                "tags": [
+                    "User Transaction"
+                ],
+                "summary": "Obtenir toutes les transactions du mois en cours",
+                "description": "Retourne la liste des transactions du mois en cours pour l'utilisateur connecté",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Attach Bearer JWT token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des transactions réussie",
+                        "schema": {
+                            "$ref": "#/definitions/TransactionResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/user/transactions/{transactionId}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": [ ]
+                    }
+                ],
+                "tags": [
+                    "User Transaction"
+                ],
+                "summary": "Obtenir les détails d'une transaction",
+                "description": "Retourne les détails d'une transaction pour l'utilisateur connecté",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Attach Bearer JWT token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "description": "ID de la transaction",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détails de la transaction réussis",
+                        "schema": {
+                            "$ref": "#/definitions/TransactionResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Transaction non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": [ ]
+                    }
+                ],
+                "tags": [
+                    "User Transaction"
+                ],
+                "summary": "Mettre à jour une transaction",
+                "description": "Met à jour une transaction pour l'utilisateur connecté",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Attach Bearer JWT token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "description": "ID de la transaction",
+                        "required": true,
+                        "type": "string"
+                    }
+                
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction mise à jour réussie",
+                        "schema": {
+                            "$ref": "#/definitions/TransactionResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Transaction non trouvée"
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": [ ]
+                    }
+                ],
+                "tags": [
+                    "User Transaction"
+                ],
+                "summary": "Supprimer une transaction",
+                "description": "Supprime une transaction pour l'utilisateur connecté",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Attach Bearer JWT token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "description": "ID de la transaction",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction supprimée avec succès",
+                        "schema": {
+                            "$ref": "#/definitions/TransactionResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Transaction non trouvée"
+                    }
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -252,6 +421,55 @@
                 },
                 "lastName": {
                     "type": "string"
+                }
+            }
+        },
+        "TransactionResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "description": "ID de la transaction"
+                        },
+                        "amount": {
+                            "type": "number",
+                            "description": "Montant de la transaction"
+                        },
+                        "date": {
+                            "type": "string",
+                            "format": "date",
+                            "description": "Date de la transaction"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Description de la transaction"
+                        },
+                        "balance": {
+                            "type": "number",
+                            "description": "Montant restant sur le compte après l'opération"
+                        },
+                        "transaction_type": {
+                            "type": "string",
+                            "description": "Type de la transaction (Ex: Electronic)"
+                        },
+                        "category": {
+                            "type": "string",
+                            "description": "Catégorie de la transaction (Ex: Food)"
+                        },
+                        "notes": {
+                            "type": "string",
+                            "description": "Notes détailles par l'utilisateur"
+                        }
+                    }
                 }
             }
         }
